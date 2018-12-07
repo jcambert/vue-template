@@ -14,7 +14,7 @@ appStore.settitle("Intranet")
 
 Vue.use(Vuetify)
 Vue.use(signalR,"http://localhost:63271/intranet")
-Vue.use(socket,"http://localhost:63271/intranet")
+Vue.use(socket,"http://localhost:8081")
 
 Vue.mixin({
   methods: {

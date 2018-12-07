@@ -8,7 +8,7 @@ export interface Message {
 }
 
 export class SocketServer{
-    public static readonly PORT:number = 8080;
+    public static readonly PORT:number = 8081;
     private app: express.Application;
     private server: Server;
     private io: SocketIO.Server;
@@ -16,7 +16,7 @@ export class SocketServer{
 
     constructor() {
         this.app = express();
-        this.port = process.env.PORT || SocketServer.PORT;
+        this.port =  SocketServer.PORT;
 
         this.server = createServer(this.app);
         this.io = socketIo(this.server);

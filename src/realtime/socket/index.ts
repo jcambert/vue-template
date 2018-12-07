@@ -1,14 +1,14 @@
 import Vuee from 'vue'
-import * as socketIo from 'socket.io';
+import * as io from 'socket.io-client';
 import { Observable, Subject, ReplaySubject, from, of, range } from 'rxjs';
 export interface Message{
 
 }
 export  class Socket {
-    private socket:socketIo.Server;
+    private socket:SocketIOClient.Socket;
     
-    constructor(server?:string){
-        this.socket = socketIo(server);
+    constructor(server:string){
+        this.socket = io(server);
     }
 
 
