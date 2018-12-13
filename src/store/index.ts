@@ -5,9 +5,11 @@ import Vuex, { StoreOptions } from 'vuex'
 import {IHomeState} from './modules/home'
 import {ITopbarState} from './modules/topbar'
 import {ISidebarState} from './modules/sidebar'
+import { IRouterState } from './modules/route';
 Vue.use(Vuex)
 
 export interface IRootState {
+    routee:IRouterState
     home: IHomeState,
     topbar:ITopbarState,
     sidebar:ISidebarState

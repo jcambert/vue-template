@@ -1,8 +1,9 @@
 
 import { Module, VuexModule,Mutation,Action,getModule} from 'vuex-module-decorators'
 import store from '..'
+import * as _ from 'lodash'
 
-interface MenuItem {
+export interface MenuItem {
     icon: string;
     iconalt?:string;
     text: string;
@@ -29,6 +30,18 @@ export interface ISidebarState {
 
     @Action({ commit: 'SET_MENU_ITEMS' })
     setMenuItems( menuItems: Array<MenuItem>) {
+        return menuItems
+    }
+
+    @Mutation
+    ADD_MENU_ITEMS( menuItems: Array<MenuItem>){
+        _.forEach(menuItems,item=>{
+            this.menuItems.push(item);
+        })
+        
+    }
+    @Action({ commit: 'ADD_MENU_ITEMS' })
+    addMenuItems(menuItems:Array<MenuItem>){
         return menuItems
     }
   

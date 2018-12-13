@@ -2,6 +2,7 @@
     "include":["./src/**/*"],
     "exclude": ["./src/socket/server"],
     "compilerOptions": {
+        "baseUrl": ".",
         "outDir": "./dist/",
         "sourceMap": true,
         "strict": true,

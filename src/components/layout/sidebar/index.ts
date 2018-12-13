@@ -7,7 +7,7 @@ import SidebarModule,{SidebarStore} from '../../../store/modules/sidebar'
 import TopbarModule,{TopbarStore} from '../../../store/modules/topbar'
 @Render
 @Component({})
-export default class Topbar extends Vue{
+export default class Sidebar extends Vue{
     
     get topbar():TopbarStore{
       return TopbarModule 
@@ -17,7 +17,7 @@ export default class Topbar extends Vue{
     }
    
     mounted(){
-      this.sidebar.setMenuItems(
+      /*this.sidebar.setMenuItems(
           [
             {
                 icon: 'keyboard_arrow_up',
@@ -30,6 +30,6 @@ export default class Topbar extends Vue{
                 ]
             }
           
-        ])
+        ])*/
     }
 }

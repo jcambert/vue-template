@@ -8,16 +8,23 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'build.js'
-  },
+    filename: 'build.js',
 
+  },
+ 
   module: {
     rules: [
       {
         test: /\.css$/,
         use: [
           'vue-style-loader',
-          'css-loader'
+          {
+            loader:'css-loader',
+            options:{
+              modules:true,
+              localIdentName: '[local]_[hash:base64:8]'
+            }
+          }
         ],
       },      {
         test: /\.vue$/,
@@ -102,5 +109,15 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })
+  ])
+}else{
+  module.exports.plugins = (module.exports.plugins || []).concat([
+    new ForkTsCheckerWebpackPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        BASE_URL:'/'
+      }
+    }),
   ])
 }

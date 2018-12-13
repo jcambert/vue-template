@@ -1,37 +1,19 @@
 import Vue from 'vue'
-import VueRouter,{RouterOptions,RouterMode} from 'vue-router'
-import Home from '../components/layout/home'
-import Sidebar from '../components/layout/sidebar'
-import Topbar from '../components/layout/topbar'
+import VueRouter,{RouterOptions,RouterMode, RouteConfig} from 'vue-router'
+
+
+import {MenuItem} from '../store/modules/sidebar'
 import * as _ from 'lodash';
 
-Vue.use(VueRouter)
-const router=new VueRouter({
-  mode:'history',
-  routes:[
-    {
-      path:'/',
-      name:'home',
-      components:{
-        default:Home,
-        sidebar:Sidebar,
-        topbar:Topbar
-      }
-    },
-    {
-        path: '*',
-        redirect: { name: 'home' },
-    }
-  ]
-})
+
  
 interface IDefaultRouteOption{
     name?:string
     url?:string
 
 }
-class AppRouter{
-    routes:Array<any>=[]
+export class AppRouter{
+    routes:RouteConfig[]=[]
     mode?:RouterMode
     constructor(options:any){
         if(options.mode)
@@ -44,7 +26,8 @@ class AppRouter{
         }
     }
     get router():VueRouter{
-        return new VueRouter(this.routeOptions);
+        Vue.use(VueRouter)
+        return new VueRouter(this.routeOptions)
     }
     addDefaultRoute(option:IDefaultRouteOption){
         if(option.name)
@@ -52,35 +35,37 @@ class AppRouter{
         else if(option.url)
             this.addRoute({name:'404',path:'*',redirect:option.url})
     }
-    addRoute(route:any){
+    addRoute(route:RouteConfig){
         //console.dir(route)
         if(!route.name)
             throw new Error("route must contain a name")
+        console.log('appRouter.addRoute',route)
         this.routes.push(route);
     }
-    addChild(parentName:any,route:{}){
-        var res = _.find(this.routes,{name:parentName})
-        if(res){
-            if(!res.children)res.children=[]
-            res.children.push(route)
+    addRoutes(routes:RouteConfig[]){
+        _.forEach(routes,route=>this.addRoute(route))
+    }
+    addChild(parentName:any,route:RouteConfig){
+        console.log('appRouter.addChild',parentName,route)
+        var idx = _.findIndex(this.routes,{name:parentName}) 
+        console.log(idx)
+        if(idx>-1){
+            var res = this.routes[idx]
+            if(res){
+                if(!res.children)res.children=[]
+                res.children.push(route)
+            }
+            console.log(res)
         }
+        
+    }
+    addChilds(parentName:any,routes:RouteConfig[]){
+        _.forEach(routes,route=>this.addChild(parentName,route))
     }
 }
 
 const appRouter = new AppRouter({mode:'hash'})
-appRouter.addDefaultRoute({name:'home'})
-appRouter.addRoute({
-    path:'/',
-    name:'home',
-    components:{
-      default:Home,
-      sidebar:Sidebar,
-      topbar:Topbar
-    },
-    children:[]
-  })
+
 
 export default appRouter
 
-require("./modules/commercial")
-require("./modules/cotation")
